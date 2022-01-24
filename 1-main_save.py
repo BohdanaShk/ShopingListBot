@@ -1,6 +1,6 @@
 import telebot
 
-API_TOKEN = "token"
+API_TOKEN = "2111677038:AAFbvZx9qQHc6fMudfg4HIUOTTrWKtdEeEw"
 shopping_bot = telebot.TeleBot(API_TOKEN)
 
 # telebot.types.ReplyKeyboardMarkup
@@ -8,6 +8,7 @@ shopping_bot = telebot.TeleBot(API_TOKEN)
 commands = ['Add to list ', 'Get from list', 'Delete from list']
 keyboard = telebot.types.ReplyKeyboardMarkup()
 keyboard.row(*commands)
+
 
 shopping_list = []
 current_operation = None
@@ -30,7 +31,7 @@ def command(message):
     elif message.text == 'Get from list':
         current_operation = 'get'
         shopping_bot.reply_to(message, ','.join(shopping_list) if shopping_list else 'No  more items')
-    elif message.text == 'Delete from list':
+    elif message.text == 'Delete from list':#  в цьому еліфі є можливість створення списку запитань для кукін бота
         current_operation = 'del'
         inline_kb = telebot.types.InlineKeyboardMarkup()
         for elem in shopping_list:
@@ -43,7 +44,9 @@ def command(message):
             shopping_bot.reply_to(message, f'successfully added {message.text}')
 
 
-@shopping_bot.callback_query_handler(func=lambda x: True)
+# На даний момент тут є збережений першопочатковий варіант як можна зробити кнопки інлайнові , і також список за допомогою якого
+# можна буде створити той функціл\онал який потрібен для кукін бота
+@shopping_bot.callback_query_handler(func=lambda x: True)# тУТ  іде видалення того що попадає в колл дату , треба зробтти так щоб не удаляло а наприклад додавало по цьому запиту в базу даних
 def callback_handler(call):
     global shopping_list
     index_to_remove = None
